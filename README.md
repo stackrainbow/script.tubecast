@@ -34,6 +34,9 @@ Support will only be provided via the forum thread in [Kodi's Forums](https://fo
 
 * Kodi will hang if closed while having a established connection. Unpair the device first.
 
+#### Xbox One
+This won't work on the Xbox One version of Kodi out of the box, due to an issue listening to SSDP packets.
+For a bit of a hacky fix, see the [following repository](https://github.com/stackrainbow/xbox-ssdp-proxy). This workaround requires another system to listen and respond to SSDP packets on behalf of the Xbox One Kodi instance.
 
 ### Disclaimer
 
