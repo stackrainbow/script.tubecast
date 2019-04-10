@@ -21,6 +21,10 @@ class SilentWSGIRequestHandler(WSGIRequestHandler):
     def log_message(self, format, *args):
         logger.debug("{} - - {}".format(self.address_string(), format % args))
 
+    def address_string(self):
+        # Short-circuit parent method to not call socket.getfqdn
+        return self.client_address[0]
+
     def handle(self):
         try:
             WSGIRequestHandler.handle(self)

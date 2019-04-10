@@ -9,22 +9,21 @@ from resources.lib.tubecast.youtube.app import YoutubeCastV1
 logger = kodilogging.get_logger()
 
 __device__ = '''<?xml version="1.0" encoding="utf-8"?>
-    <root xmlns="urn:schemas-upnp-org:device-1-0" xmlns:r="urn:restful-tv-org:schemas:upnp-dd">
+    <root xmlns="urn:schemas-upnp-org:device-1-0">
         <specVersion>
-        <major>1</major>
-        <minor>0</minor>
+            <major>1</major>
+            <minor>1</minor>
         </specVersion>
-        <URLBase>{{ path }}</URLBase>
         <device>
-            <deviceType>urn:schemas-upnp-org:device:dail:1</deviceType>
+            <deviceType>urn:schemas-upnp-org:device:dial:1</deviceType>
             <friendlyName>{{ friendlyName }}</friendlyName>
-            <manufacturer>Google Inc.</manufacturer>
-            <modelName>Eureka Dongle</modelName>
+            <manufacturer>Bobpril LLC.</manufacturer>
+            <modelName>Bobpril TV Device</modelName>
             <UDN>uuid:{{ uuid }}</UDN>
             <serviceList>
                 <service>
-                    <serviceType>urn:schemas-upnp-org:service:dail:1</serviceType>
-                    <serviceId>urn:upnp-org:serviceId:dail</serviceId>
+                    <serviceType>urn:schemas-upnp-org:service:dial:1</serviceType>
+                    <serviceId>urn:upnp-org:serviceId:dial</serviceId>
                     <controlURL>/ssdp/notfound</controlURL>
                     <eventSubURL>/ssdp/notfound</eventSubURL>
                     <SCPDURL>/ssdp/notfound</SCPDURL>
@@ -52,6 +51,8 @@ def service_desc():
     response.set_header('Access-Control-Expose-Headers', 'Location')
     response.set_header('Application-URL',
                         'http://{}/apps'.format(request.get_header('host')))
+    logger.debug('http://{}/apps'.format(request.get_header('host')))
+    logger.debug(Kodicast.uuid)
     response.set_header('Content-Type', 'application/xml')
     return build_template(__device__).render(
         friendlyName=Kodicast.friendlyName,

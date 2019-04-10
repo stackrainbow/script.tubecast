@@ -104,14 +104,15 @@ class MulticastServer(ControlMixin, ThreadingUDPServer):
 class SSDPHandler(DatagramRequestHandler):
 
     header = '''\
-    HTTP/1.1 200 OK\r
-    LOCATION: http://{{ ip }}:8008/ssdp/device-desc.xml\r
-    CACHE-CONTROL: max-age=1800\r
-    CONFIGID.UPNP.ORG: 7337\r
-    BOOTID.UPNP.ORG: 7337\r
-    USN: uuid:{{ uuid }}\r
-    ST: urn:dial-multiscreen-org:service:dial:1\r
-    \r
+    HTTP/1.1 200 OK\r\n
+    LOCATION: http://{{ ip }}:8008/ssdp/device-desc.xml\r\n
+    CACHE-CONTROL: max-age=10\r\n
+    EXT: \r\n
+    SERVER: GNU/Linnucks \r\n
+    BOOTID.UPNP.ORG: 1\r\n
+    USN: uuid:{{ uuid }}::urn:dial-multiscreen-org:service:dial:1\r\n
+    ST: urn:dial-multiscreen-org:service:dial:1\r\n
+    \r\n
     '''
 
     def handle(self):
@@ -137,6 +138,7 @@ class SSDPHandler(DatagramRequestHandler):
         if "urn:dial-multiscreen-org:service:dial:1" in datagram and "M-SEARCH" in datagram:
             if get_setting_as_bool('debug-ssdp'):
                 logger.debug("Answering datagram")
+                logger.debug(self.get_remote_ip(address))
             data = build_template(self.header).render(
                 ip=self.get_remote_ip(address),
                 uuid=Kodicast.uuid

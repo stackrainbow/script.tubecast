@@ -3,7 +3,8 @@ class YoutubeTemplates:
 
     @property
     def not_connected(self):
-        return '''<service xmlns="urn:dial-multiscreen-org:schemas:dial">
+        return '''<?xml version="1.0" encoding="UTF-8"?>
+                <service xmlns="urn:dial-multiscreen-org:schemas:dial">
                     <name>YouTube</name>
                     <options allowStop="true"/>
                     <state>stopped</state>
